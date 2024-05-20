@@ -5,7 +5,11 @@ export const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(to bottom, #014f7b, #8ae323);
+  background-image: linear-gradient(
+    to ${props => props.gradientDirection},
+    ${props => props.updatedFromColor},
+    ${props => props.updatedToColor}
+  );
   height: 100vh;
 `
 export const MainHeading = styled.h1`

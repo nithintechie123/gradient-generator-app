@@ -23,7 +23,14 @@ const gradientDirectionsList = [
 // Write your code here
 
 class GradientGenerator extends Component {
-  state = {leftColorInput: '#014f7b', rightColorInput: '#8ae323'}
+  state = {
+    leftColorInput: '#014f7b',
+    rightColorInput: '#8ae323',
+    activeDirection: gradientDirectionsList[0].value,
+    gradientDirection: gradientDirectionsList[0].value,
+    updatedFromColor: '',
+    updatedToColor: '',
+  }
 
   onChangeLeftColorInputValue = event => {
     this.setState({leftColorInput: event.target.value})
@@ -33,10 +40,36 @@ class GradientGenerator extends Component {
     this.setState({rightColorInput: event.target.value})
   }
 
+  clickedDirectionButton = value => {
+    this.setState({activeDirection: value})
+  }
+
+  onClickGenerateButton = () => {
+    const {leftColorInput, rightColorInput, activeDirection} = this.state
+    this.setState({
+      updatedFromColor: leftColorInput,
+      updatedToColor: rightColorInput,
+      gradientDirection: activeDirection,
+    })
+  }
+
   render() {
-    const {leftColorInput, rightColorInput} = this.state
+    const {
+      leftColorInput,
+      rightColorInput,
+      updatedFromColor,
+      updatedToColor,
+      activeDirection,
+      gradientDirection,
+    } = this.state
+
     return (
-      <MainContainer>
+      <MainContainer
+        data-testid="gradientGenerator"
+        gradientDirection={gradientDirection}
+        updatedFromColor={updatedFromColor}
+        updatedToColor={updatedToColor}
+      >
         <MainHeading>Generate a CSS Color Gradient</MainHeading>
         <MiniHeading>Choose Direction</MiniHeading>
         <GradientDirectionsContainer>
@@ -44,6 +77,8 @@ class GradientGenerator extends Component {
             <GradientDirectionItem
               key={eachGradient.directionId}
               gradientDirectionDetails={eachGradient}
+              clickedDirectionButton={this.clickedDirectionButton}
+              isActive={activeDirection === eachGradient.value}
             />
           ))}
         </GradientDirectionsContainer>
@@ -55,6 +90,7 @@ class GradientGenerator extends Component {
               htmlFor="leftColorLabel"
               type="color"
               onChange={this.onChangeLeftColorInputValue}
+              value={leftColorInput}
             />
           </ColorInputContainer>
           <ColorInputContainer>
@@ -63,10 +99,13 @@ class GradientGenerator extends Component {
               htmlFor="rightColorLabel"
               type="color"
               onChange={this.onChangeRightColorInputValue}
+              value={rightColorInput}
             />
           </ColorInputContainer>
         </ColorsContainer>
-        <GenerateButton type="button">Generate</GenerateButton>
+        <GenerateButton type="button" onClick={this.onClickGenerateButton}>
+          Generate
+        </GenerateButton>
       </MainContainer>
     )
   }

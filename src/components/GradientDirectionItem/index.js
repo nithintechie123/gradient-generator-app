@@ -1,12 +1,18 @@
 import {GradientItemButton, GradientItem} from './styledComponents'
 
 const GradientDirectionItem = props => {
-  const {gradientDirectionDetails} = props
-  const {displayText} = gradientDirectionDetails
+  const {gradientDirectionDetails, clickedDirectionButton, isActive} = props
+  const {displayText, value} = gradientDirectionDetails
+
+  const onClickDirectionButton = () => {
+    clickedDirectionButton(value)
+  }
 
   return (
     <GradientItem>
-      <GradientItemButton>{displayText}</GradientItemButton>
+      <GradientItemButton onClick={onClickDirectionButton} isActive={isActive}>
+        {displayText}
+      </GradientItemButton>
     </GradientItem>
   )
 }

@@ -14,4 +14,5 @@ export const GradientItemButton = styled.button`
   padding: 8px;
   width: 80px;
   cursor: pointer;
+  opacity: ${props => (props.isActive ? 1 : 0.5)};
 `
